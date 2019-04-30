@@ -10,7 +10,7 @@ class PurchaseResponse extends Response
 
     public function getRedirectMethod()
     {
-        return 'POST';
+        return 'POST'; 
     }
 
     /**
@@ -27,25 +27,33 @@ class PurchaseResponse extends Response
     public function getRedirectResponse()
     {
         $output = <<<EOF
-<html>
-<head>
-    <title>Redirecting...</title>
-    <script src="%s" async></script>
-</head>
-<body>
-    <script>
-    window.onload = function() {
-        AfterPay.init(countryCode: "%s");
-        AfterPay.redirect({token: "%s"});
-    };
-    </script>
-</body>
-</html>
+        <html>
+        <head>
+            <title>Redirecting...</title>
+            <script src="%s" async></script>
+        </head>
+        <body>
+            <script>
+            window.onload = function() {
+                AfterPay.initialize({countryCode: "%s"});
+                AfterPay.redirect({token: "%s"});
+            };
+            </script>
+        </body>
+        </html>
 EOF;
 
         $output = sprintf($output, $this->getScriptUrl(), $this->getCountryCode(), $this->getToken());
 
         return HttpResponse::create($output);
+    }
+
+    /**
+     * @return string
+     */
+    public function getCountryCode()
+    {
+        return 'NZ';
     }
 
     /**
@@ -61,7 +69,8 @@ EOF;
      */
     public function getToken()
     {
-        return isset($this->data->token) ? $this->data->token : null;
+        return '123456';
+        //return isset($this->data->token) ? $this->data->token : null;
     }
 
     /**

@@ -19,8 +19,8 @@ class PurchaseRequest extends AbstractRequest
         $card = $this->getCard();
 
         // Normalize consumer names as AfterPay will reject the request with a missing surname
-        $givenNames = $card->getFirstName();
-        $surname = $card->getLastName();
+        $givenNames = 'Test';
+        $surname    = 'Name';
 
         if (empty($surname) && false !== $pos = strrpos($givenNames, ' ')) {
             $surname = substr($givenNames, $pos + 1);
@@ -42,42 +42,43 @@ class PurchaseRequest extends AbstractRequest
 
         $data = array(
             'totalAmount'     => array(
-                'amount'      => $this->getAmount(),
-                'currency'    => $this->getCurrency(),
+                'amount'      => '40.70',
+                'currency'    => 'NZD',
             ),
             'consumer'        => array(
-                'givenNames'  => $givenNames,
-                'surname'     => $surname,
-                'email'       => $card->getEmail(),
-                'phoneNumber' => $card->getPhone(),
+                'phoneNumber' => '0400000000',
+                'givenNames'  => 'Test',
+                'surname'     => 'Name',
+                'email'       => 'test@gmail.com',
             ),
             'billing'         => array(
-                'name'        => $card->getBillingName(),
-                'line1'       => $card->getBillingAddress1(),
-                'line2'       => $card->getBillingAddress2(),
-                'suburb'      => $card->getBillingCity(),
-                'state'       => $card->getBillingState(),
-                'postcode'    => $card->getBillingPostcode(),
-                'countryCode' => $card->getBillingCountry(),
-                'phoneNumber' => $card->getBillingPhone(),
+                'name'        => 'Test',
+                'line1'       => '57 Test Rd',
+                'line2'       => '',
+                'suburb'      => 'Auckland',
+                'state'       => 'Auckland',
+                'postcode'    => '1010',
+                'countryCode' => 'NZ',
+                'phoneNumber' => '0400000000',
             ),
             'shipping'        => array(
-                'name'        => $card->getShippingName(),
-                'line1'       => $card->getShippingAddress1(),
-                'line2'       => $card->getShippingAddress2(),
-                'suburb'      => $card->getShippingCity(),
-                'state'       => $card->getShippingState(),
-                'postcode'    => $card->getShippingPostcode(),
-                'countryCode' => $card->getShippingCountry(),
-                'phoneNumber' => $card->getShippingPhone(),
+                'name'        => 'Test',
+                'line1'       => '57 Test Rd',
+                'line2'       => '',
+                'suburb'      => 'Auckland',
+                'state'       => 'Auckland',
+                'postcode'    => '1010',
+                'countryCode' => 'NZ',
+                'phoneNumber' => '0400000000',
             ),
             'items'           => $this->getItemData(),
             'merchant'        => array(
                 // Need to append dummy parameter otherwise AfterPay breaks the hash param on return
-                'redirectConfirmUrl' => $returnUrl,
-                'redirectCancelUrl'  => $cancelUrl,
+                'redirectConfirmUrl' => 'https://www.merchant.com/confirm',
+                'redirectCancelUrl'  => 'https://www.merchant.com/cancel',
             ),
-            'merchantReference' => $this->getTransactionReference(),
+            'merchantReference' => 'merchantOrder-1234',
+            //'merchantReference' => $this->getTransactionReference(),
         );
 
         return $data;
@@ -96,11 +97,11 @@ class PurchaseRequest extends AbstractRequest
             /** @var \Omnipay\Common\ItemInterface $item */
             foreach ($items as $item) {
                 $itemArray[] = array(
-                    'name'     => $item->getName(),
-                    'quantity' => $item->getQuantity(),
+                    'name'     => 'Test Product',
+                    'quantity' => '1',
                     'price'    => array(
-                        'amount'   => $this->formatPrice($item->getPrice()),
-                        'currency' => $this->getCurrency(),
+                        'amount'   => '40',
+                        'currency' => 'NZD',
                     ),
                 );
             }
@@ -122,11 +123,11 @@ class PurchaseRequest extends AbstractRequest
             /** @var \Omnipay\Common\ItemInterface $item */
             foreach ($items as $item) {
                 $itemArray[] = array(
-                    'name'     => $item->getName(),
-                    'quantity' => $item->getQuantity(),
+                    'name'     => 'Test Product',
+                    'quantity' => '1',
                     'price'    => array(
-                        'amount'   => $this->formatPrice($item->getPrice()),
-                        'currency' => $this->getCurrency(),
+                        'amount'   => '40',
+                        'currency' => 'NZD',
                     ),
                 );
             }

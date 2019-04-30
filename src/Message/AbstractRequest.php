@@ -6,8 +6,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 {
     protected $liveEndpoint = 'https://api.afterpay.com/v1';
     protected $testEndpoint = 'https://api-sandbox.afterpay.com/v1';
-
-
+    
     /**
      * @return mixed
      */
